@@ -131,7 +131,7 @@ int main(int argc, char* argv[]) {
             continue;
         }
 
-        std::string command = "git commit -m \" + commit + \"";
+        std::string command = "git commit -m \"" + commit + "\"";
         std::system(command.c_str());
 
         std::cout
