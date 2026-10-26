@@ -27,17 +27,17 @@ int main(int argc, char* argv[]) {
         std::string commit;
 
         std::cout << "Type of commit?\n"
-                  << "1 - feat\n"
-                  << "2 - fix\n"
-                  << "3 - docs\n"
-                  << "4 - style\n"
-                  << "5 - refactor\n"
-                  << "6 - perf\n"
-                  << "7 - test\n"
-                  << "8 - build\n"
-                  << "9 - ci\n"
-                  << "10 - chore\n"
-                  << "11 - revert\n"
+                  << "1 - feat     -- New feature\n"
+                  << "2 - fix      -- Bug fix\n"
+                  << "3 - docs     -- Documentation change\n"
+                  << "4 - style    -- Formatting, no logic changes\n"
+                  << "5 - refactor -- Restructuring code, no bugs/features\n"
+                  << "6 - perf     -- Performance improvement\n"
+                  << "7 - test     -- Adding/fixing tests\n"
+                  << "8 - build    -- Build system or dependencies\n"
+                  << "9 - ci       -- CI configuration/scripts\n"
+                  << "10 - chore   -- Routine maintenance, cleanups\n"
+                  << "11 - revert  -- Undo a previous commit\n"
                   << "Enter type (1-11): ";
 
         std::getline(std::cin, option);
