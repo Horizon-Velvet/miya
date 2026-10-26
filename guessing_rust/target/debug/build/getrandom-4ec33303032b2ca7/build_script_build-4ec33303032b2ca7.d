@@ -1,5 +1,0 @@
-/home/horizonvelvet/miya/guessing_rust/target/debug/build/getrandom-4ec33303032b2ca7/build_script_build-4ec33303032b2ca7.d: /home/horizonvelvet/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.4.3/build.rs
-
-/home/horizonvelvet/miya/guessing_rust/target/debug/build/getrandom-4ec33303032b2ca7/build_script_build-4ec33303032b2ca7: /home/horizonvelvet/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.4.3/build.rs
-
-/home/horizonvelvet/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/getrandom-0.4.3/build.rs:

@@ -71,65 +71,8 @@ int main(int argc, char* argv[]) {
 
     std::string git = "git -C " + shell_quote(path.string());
 
-    if (std::system((git + " diff --cached --quiet").c_str()) == 0) {
-        std::string input;
-
-        std::cout << "No staged files.\n"
-                  << "Enter file paths separated by commas (press enter to add "
-                     "everything):\n";
-        std::getline(std::cin, input);
-        input = trim(input);
-
-        if (input.empty()) {
-            input = ".";
-        }
-
-        std::vector<std::string> files;
-        size_t start = 0;
-
-        while (start <= input.size()) {
-            size_t comma = input.find(',', start);
-            std::string file = trim(input.substr(
-                start,
-                comma == std::string::npos ? std::string::npos : comma - start
-            ));
-
-            if (file.empty()) {
-                std::cout << "File path cannot be empty\n";
-                return EXIT_FAILURE;
-            }
-
-            fs::path file_path(file);
-            fs::path full_path =
-                file_path.is_absolute() ? file_path : path / file_path;
-
-            std::error_code error;
-
-            if (!fs::exists(full_path, error) || error) {
-                std::cout << file << " does not exist\n";
-                return EXIT_FAILURE;
-            }
-
-            files.push_back(file);
-
-            if (comma == std::string::npos) {
-                break;
-            }
-
-            start = comma + 1;
-        }
-
-        std::string add_command = git + " add --";
-
-        for (const std::string& file : files) {
-            add_command += " " + shell_quote(file);
-        }
-
-        if (std::system(add_command.c_str()) != 0) {
-            std::cout << "Failed to add files\n";
-            return EXIT_FAILURE;
-        }
-    }
+    bool needs_add = std::system((git + " diff --cached --quiet").c_str()) == 0;
+    std::string input;
 
     while (true) {
         std::string option;
@@ -255,6 +198,66 @@ int main(int argc, char* argv[]) {
 
         if (option == "y") {
             continue;
+        }
+
+        if (needs_add) {
+            std::cout
+                << "\nNo staged files.\n"
+                << "Enter file paths separated by commas (press enter to add "
+                   "everything):\n";
+            std::getline(std::cin, input);
+            input = trim(input);
+
+            if (input.empty()) {
+                input = ".";
+            }
+
+            std::vector<std::string> files;
+            size_t start = 0;
+
+            while (start <= input.size()) {
+                size_t comma = input.find(',', start);
+                std::string file = trim(input.substr(
+                    start,
+                    comma == std::string::npos ? std::string::npos
+                                               : comma - start
+                ));
+
+                if (file.empty()) {
+                    std::cout << "File path cannot be empty\n";
+                    return EXIT_FAILURE;
+                }
+
+                fs::path file_path(file);
+                fs::path full_path =
+                    file_path.is_absolute() ? file_path : path / file_path;
+
+                std::error_code error;
+
+                if (!fs::exists(full_path, error) || error) {
+                    std::cout << file << " does not exist\n";
+                    return EXIT_FAILURE;
+                }
+
+                files.push_back(file);
+
+                if (comma == std::string::npos) {
+                    break;
+                }
+
+                start = comma + 1;
+            }
+
+            std::string add_command = git + " add --";
+
+            for (const std::string& file : files) {
+                add_command += " " + shell_quote(file);
+            }
+
+            if (std::system(add_command.c_str()) != 0) {
+                std::cout << "Failed to add files\n";
+                return EXIT_FAILURE;
+            }
         }
 
         std::string command = git + " commit -m " + shell_quote(commit);
